@@ -1,5 +1,3 @@
-import java.awt.*;
-
 public class Y_Main {
 
     private static int flagToStop = 0;
@@ -11,6 +9,6 @@ public class Y_Main {
 
     public static void stop() {
         flagToStop = 1;
-        System.out.println("The end.");
+        System.out.println("The end!");
     }
 }
