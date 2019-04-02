@@ -51,6 +51,12 @@ public class ArrayContainer<T> implements IContainer<T> {
     }
 
     @Override
+    public void saveAllToFile() {
+        //FileUtils.saveToFile();
+
+    }
+
+    @Override
     public void delete(int elementIndex) {
         T[] newArray = (T[]) new Object[count - 1];
         if (elementIndex == 0) System.arraycopy(array, 1, newArray, 0, count - 1);

@@ -1,3 +1,5 @@
+import java.io.IOException;
+
 public interface IContainer<T> {
 
     void add(T element);
@@ -16,4 +18,5 @@ public interface IContainer<T> {
 
     void printAllWithNum();
 
+    void saveAllToFile() throws IOException, ClassNotFoundException;
 }
