@@ -17,6 +17,5 @@ public interface IContainer<T> {
     void update(int elementIndex, T element);
 
     void printAllWithNum();
-
-    void saveAllToFile() throws IOException, ClassNotFoundException;
+    void saveAllToFile() throws IOException;
 }

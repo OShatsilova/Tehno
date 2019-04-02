@@ -60,7 +60,7 @@ public class Menu {
                 deviceIContainer.printAll();
                 break;
             case (5):
-                //deviceIContainer.saveAllToFile();
+                deviceIContainer.saveAllToFile();
                 break;
             case (0):
                 Y_Main.stop();

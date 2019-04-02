@@ -1,3 +1,5 @@
+import java.io.IOException;
+import java.lang.reflect.Array;
 import java.util.Arrays;
 
 public class ArrayContainer<T> implements IContainer<T> {
@@ -51,10 +53,15 @@ public class ArrayContainer<T> implements IContainer<T> {
     }
 
     @Override
-    public void saveAllToFile() {
-        //FileUtils.saveToFile();
-
+    public void saveAllToFile() throws IOException {
+        StringBuilder str = new StringBuilder();
+        if (count == 0) str.append("Container is empty");
+        else
+            for (int i = 0; i < count; i++)
+                str.append(array[i]).append("\n");
+        FileUtils.saveToFile(str.toString());
     }
+
 
     @Override
     public void delete(int elementIndex) {
