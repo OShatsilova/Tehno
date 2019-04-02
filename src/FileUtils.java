@@ -1,5 +1,6 @@
-import java.io.*;
-import java.lang.reflect.Array;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 
 public class FileUtils{
 
