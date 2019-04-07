@@ -49,7 +49,7 @@ public class AbstractDevice<T extends AbstractDevice<T>> {
     @Override
     public String toString() {
         StringBuilder str = new StringBuilder();
-        str = str.append(deviceFirm).append(" ").append(deviceType).append(" ");
+        str = str.append("{").append(deviceFirm).append(" ").append(deviceType);
         return str.toString();
 
     }

@@ -4,13 +4,17 @@ public class Menu {
 
     static IContainer<AbstractDevice> deviceIContainer = new ArrayContainer<>();
 
+    public static IContainer<AbstractDevice> getDeviceIContainer() {
+        return deviceIContainer;
+    }
+
     static private String menuItems = (new StringBuilder()
             .append("\n1 - add element\n")
             .append("2 - update element\n")
             .append("3 - delete element\n")
             .append("4 - print all\n")
             .append("5 - seve to file\n")
-            // .append("6 - load from file\n")
+            .append("6 - load from file\n")
             .append("0 - exit\n"))
             .toString();
 
@@ -38,7 +42,7 @@ public class Menu {
 
     static void run() throws IOException, ClassNotFoundException {
         printMainMenu();
-        int[] massOfItems = {1, 2, 3, 4, 5, 0};
+        int[] massOfItems = {1, 2, 3, 4, 5, 6, 0};
         int item = InputUtils.inputItem(massOfItems);
         switch (item) {
             case (1):
@@ -61,6 +65,9 @@ public class Menu {
                 break;
             case (5):
                 deviceIContainer.saveAllToFile();
+                break;
+            case (6):
+                FileUtils.loadFromFile();
                 break;
             case (0):
                 Y_Main.stop();

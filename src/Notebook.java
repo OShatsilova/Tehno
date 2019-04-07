@@ -24,7 +24,10 @@ public class Notebook extends AbstractDevice {
 
     @Override
     public String toString() {
-        return super.toString() + deviceModelNumber;
+        StringBuilder str = new StringBuilder();
+        str.append(super.toString()).append(" " +
+                "").append(deviceModelNumber).append("}");
+        return str.toString();
     }
 
     @Override
