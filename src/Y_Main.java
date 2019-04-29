@@ -2,15 +2,61 @@ import java.io.IOException;
 
 public class Y_Main {
 
-    private static int flagToStop = 0;
 
-    public static void main(String args[]) throws IOException, ClassNotFoundException {
+    public static void main(String args[]) throws IOException, ClassNotFoundException, InterruptedException {
 
-        while (flagToStop == 0) Menu.run();
+        IContainer<AbstractDevice> deviceIContainer = new ArrayContainer<>();
+        Mutator mutator = new Mutator();
+
+
+        Thread t1 = new Thread() {
+            @Override
+            public void run() {
+                try {
+                    new Menu(deviceIContainer).run();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                } catch (ClassNotFoundException e) {
+                    e.printStackTrace();
+                }
+
+                System.out.println("Finish Menu");
+            }
+        };
+
+        Thread t2 = new Thread() {
+            @Override
+            public void run() {
+                while (true) {
+                    mutator.addRandomDevice(deviceIContainer);
+                    try {
+                        Thread.sleep(2500);
+                    } catch (InterruptedException e) {
+                    }
+                }
+            }
+        };
+
+        Thread t3 = new Thread() {
+            @Override
+            public void run() {
+                while (true) {
+                    mutator.deleteRandomDevice(deviceIContainer);
+                    try {
+                        Thread.sleep(5000);
+                    } catch (InterruptedException e) {
+                    }
+                }
+            }
+        };
+
+
+        t1.start();
+        t2.start();
+        t3.start();
+
+        //Menu.run();
+        //Menu.test();
     }
 
-    public static void stop() {
-        flagToStop = 1;
-        System.out.println("The end!");
-    }
 }

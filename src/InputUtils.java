@@ -44,14 +44,15 @@ public class InputUtils {
     public static String print(int[] items) {
         StringBuilder str = new StringBuilder();
         str.append(items[0]);
+
         for (int i = 1; i < items.length; i++) {
             str.append(",").append(items[i]);
         }
         return str.toString();
     }
 
-    public static int inputItemFromContainer() {
-        int[] items = new int[ArrayContainer.size()];
+    public static int inputItemFromContainer(int containerSize) {
+        int[] items = new int[containerSize];
         for (int i = 0; i < items.length; i++) {
             items[i] = i + 1;
         }

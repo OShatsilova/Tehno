@@ -5,11 +5,11 @@ import java.util.Arrays;
 public class ArrayContainer<T> implements IContainer<T> {
 
     private T[] array = (T[]) new Object[10];
-    private static int count = 0;
-
+    private int count = 0;
 
     @Override
     public void add(T element) {
+        // synchronized (array) {
         if (count == array.length) {
             int newSize = (int) (array.length * 1.5) + 1;
             T[] newArray = (T[]) new Object[newSize];
@@ -18,15 +18,12 @@ public class ArrayContainer<T> implements IContainer<T> {
         }
         array[count] = element;
         count++;
+        // }
     }
 
     @Override
     public T get(int index) {
         return array[index];
-    }
-
-    public static int size() {
-        return count;
     }
 
     @Override
@@ -43,6 +40,11 @@ public class ArrayContainer<T> implements IContainer<T> {
     }
 
     @Override
+    public int size() {
+        return count;
+    }
+
+    @Override
     public void printAllWithNum() {
         if (count == 0) System.out.println("Пусто");
         else
@@ -53,26 +55,18 @@ public class ArrayContainer<T> implements IContainer<T> {
     }
 
     @Override
-    public void saveAllToFile() throws IOException {
-        StringBuilder str = new StringBuilder();
-        if (count == 0) str.append("Container is empty");
-        else
-            for (int i = 0; i < count; i++)
-                str.append(array[i]).append("\n");
-        FileUtils.saveToFile(str.toString());
-    }
-
-    @Override
     public void delete(int elementIndex) {
+        // synchronized (array) {
         T[] newArray = (T[]) new Object[count - 1];
         if (elementIndex == 0) System.arraycopy(array, 1, newArray, 0, count - 1);
         else {
             System.arraycopy(array, 0, newArray, 0, elementIndex);
-            if ((elementIndex + 1) > count)
-                System.arraycopy(array, elementIndex + 1, newArray, elementIndex, count - 2);
+            if ((elementIndex + 1) < count)
+                System.arraycopy(array, elementIndex + 1, newArray, elementIndex, count - (elementIndex + 1));
         }
         array = newArray;
         count--;
+        // }
     }
 
     @Override
@@ -85,4 +79,7 @@ public class ArrayContainer<T> implements IContainer<T> {
         return (AbstractDevice) array[elementIndex];
     }
 
+    public T[] getArray() {
+        return array;
+    }
 }

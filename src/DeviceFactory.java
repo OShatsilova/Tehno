@@ -1,12 +1,21 @@
 public class DeviceFactory {
 
-    private static int deviceType;
-    private static int deviceFirm;
-    private static double deviceModelNum = 0.0;
+    static private int deviceType;
+    static private int deviceFirm;
+    static private double deviceModelNum = 0.0;
+
+    private static String deviceItems = (new StringBuilder()
+            .append("1 - Notebook\n")
+            .append("2 - Tablet\n"))
+            .toString();
+
+    static void printDevicesItems() {
+        System.out.println(deviceItems);
+    }
 
     public static AbstractDevice createDevice() {
         System.out.println("Choose device, available items:");
-        Menu.printDevicesItems();
+        printDevicesItems();
         int[] massOfItems = {1, 2};
         deviceType = InputUtils.inputItem(massOfItems);
         System.out.println("Choose device firm, available items:");
@@ -19,7 +28,7 @@ public class DeviceFactory {
         return makeDevice(deviceType, deviceFirm, deviceModelNum);
     }
 
-    public static AbstractDevice createDevice(String str) {
+    public AbstractDevice createDevice(String str) {
         deviceFirm = Integer.valueOf(str.substring(0, 1));
         deviceType = Integer.valueOf(str.substring(1, 2));
         if (deviceType == 1) {

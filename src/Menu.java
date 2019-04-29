@@ -2,13 +2,19 @@ import java.io.IOException;
 
 public class Menu {
 
-    static IContainer<AbstractDevice> deviceIContainer = new ArrayContainer<>();
+    IContainer<AbstractDevice> deviceIContainer;
 
-    public static IContainer<AbstractDevice> getDeviceIContainer() {
-        return deviceIContainer;
+    public Menu(IContainer<AbstractDevice> deviceIContainer) {
+        this.deviceIContainer = deviceIContainer;
     }
 
-    static private String menuItems = (new StringBuilder()
+
+/* public IContainer<AbstractDevice> getDeviceIContainer() {
+
+        return deviceIContainer;
+    }*/
+
+    private static String menuItems = (new StringBuilder()
             .append("\n1 - add element\n")
             .append("2 - update element\n")
             .append("3 - delete element\n")
@@ -22,7 +28,7 @@ public class Menu {
         System.out.println(menuItems);
     }
 
-    static private String firmItems = (new StringBuilder()
+    private static String firmItems = (new StringBuilder()
             .append("1 - Asus\n")
             .append("2 - Dell\n"))
             .toString();
@@ -31,48 +37,56 @@ public class Menu {
         System.out.println(firmItems);
     }
 
-    static private String deviceItems = (new StringBuilder()
-            .append("1 - Notebook\n")
-            .append("2 - Tablet\n"))
-            .toString();
 
-    static void printDevicesItems() {
-        System.out.println(deviceItems);
+    void run() throws IOException, ClassNotFoundException {
+        while (true) {
+            printMainMenu();
+            int[] massOfItems = {1, 2, 3, 4, 5, 6, 0};
+            // проверяю ввод данных пользователем
+            int item = InputUtils.inputItem(massOfItems);
+            switch (item) {
+                case (1):
+                    deviceIContainer.add(DeviceFactory.createDevice());
+                    break;
+                case (2):
+                    if (deviceIContainer.size() != 0) {
+                        System.out.println("Choose element for update:");
+                        deviceIContainer.printAllWithNum();
+                        int ind = InputUtils.inputItemFromContainer(deviceIContainer.size()) - 1;
+                        deviceIContainer.update(ind, DeviceFactory.createDevice());
+                    } else System.out.println("Nothing to update.");
+
+                    break;
+                case (3):
+                    if (deviceIContainer.size() != 0) {
+                        System.out.println("Choose element for delete:");
+                        deviceIContainer.printAllWithNum();
+                        int index = InputUtils.inputItemFromContainer(deviceIContainer.size()) - 1;
+                        deviceIContainer.delete(index);
+                    } else System.out.println("Nothing to delete.");
+                    break;
+                case (4):
+                    deviceIContainer.printAll();
+                    break;
+                case (5):
+                    FileUtils.saveAllToFile(deviceIContainer);
+                    break;
+                case (6):
+                    FileUtils.loadFromFile(deviceIContainer);
+                    break;
+                case (0):
+                    System.out.println("Goodbye!");
+                    return;
+            }
+        }
     }
 
-    static void run() throws IOException, ClassNotFoundException {
-        printMainMenu();
-        int[] massOfItems = {1, 2, 3, 4, 5, 6, 0};
-        int item = InputUtils.inputItem(massOfItems);
-        switch (item) {
-            case (1):
-                deviceIContainer.add(DeviceFactory.createDevice());
-                break;
-            case (2):
-                System.out.println("Choose element for update:");
-                deviceIContainer.printAllWithNum();
-                int ind = InputUtils.inputItemFromContainer() - 1;
-                deviceIContainer.update(ind, DeviceFactory.createDevice());
-                break;
-            case (3):
-                System.out.println("Choose element for delete:");
-                deviceIContainer.printAllWithNum();
-                int index = InputUtils.inputItemFromContainer() - 1;
-                deviceIContainer.delete(index);
-                break;
-            case (4):
-                deviceIContainer.printAll();
-                break;
-            case (5):
-                deviceIContainer.saveAllToFile();
-                break;
-            case (6):
-                FileUtils.loadFromFile();
-                break;
-            case (0):
-                Y_Main.stop();
-                break;
-        }
+    void test() throws IOException, ClassNotFoundException {
+        /*System.out.println("Test start..." + System.currentTimeMillis());
+        for (int i = 1; i < 1000001; i++)
+            deviceIContainer.add(DeviceFactory.createDevice("12"));
+        deviceIContainer.saveAllToFile();
+        System.out.println("Test end....." + System.currentTimeMillis());*/
     }
 
 

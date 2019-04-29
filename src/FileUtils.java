@@ -1,5 +1,6 @@
 import javax.print.DocFlavor;
 import java.io.*;
+import java.lang.reflect.Array;
 import java.util.Scanner;
 
 public class FileUtils {
@@ -9,22 +10,24 @@ public class FileUtils {
     public static void saveToFile(String s) throws IOException {
         FileWriter writer = new FileWriter(file);
         writer.write(s);
+        writer.flush();
         writer.close();
-        System.out.print("File saved.");
+        System.out.println("File saved.");
     }
 
-    public static void loadFromFile() throws FileNotFoundException {
-
+    public static void loadFromFile(IContainer arrayContainer) throws FileNotFoundException {
         Scanner scaner = new Scanner(file);
         String str = "";
+        DeviceFactory factory = new DeviceFactory();
         while (scaner.hasNext()) {
             str = scaner.nextLine();
             String s = parsLine(str);
-            AbstractDevice abstractDevice = DeviceFactory.createDevice(s);
-            IContainer<AbstractDevice> deviceIContainer = Menu.getDeviceIContainer();
+            AbstractDevice abstractDevice = factory.createDevice(s);
+            IContainer<AbstractDevice> deviceIContainer = arrayContainer;
             deviceIContainer.add(abstractDevice);
         }
         System.out.println("File loaded.");
+
     }
 
     private static String parsLine(String str) {
@@ -47,5 +50,17 @@ public class FileUtils {
         } else stringBuilder.append(2);
 
         return stringBuilder.toString();
+    }
+
+    public  static void saveAllToFile(IContainer arrayContainer) throws IOException {
+        StringBuilder str = new StringBuilder();
+        int count = arrayContainer.size();
+        if (count == 0) System.out.println("Container is empty, nothing to save.");
+        else {
+            Object[] array = arrayContainer.toArray();
+            for (int i = 0; i < count; i++)
+                str.append(array[i]).append("\n");
+        }
+        FileUtils.saveToFile(str.toString());
     }
 }

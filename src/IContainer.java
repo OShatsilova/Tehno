@@ -11,6 +11,8 @@ public interface IContainer<T> {
 
     T[] toArray();
 
+    int size();
+
     void delete(int elementIndex);
 
     AbstractDevice getElementFromContainer(int elementIndex);
@@ -18,7 +20,5 @@ public interface IContainer<T> {
     void update(int elementIndex, T element);
 
     void printAllWithNum();
-
-    void saveAllToFile() throws IOException;
 
 }
